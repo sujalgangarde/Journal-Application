@@ -32,7 +32,7 @@ public class JournalEntryController {
         String username = authentication.getName();
         User user = userService.findByUsername(username);
         List<JournalEntry> all = user.getJournalEntries();
-        if (!all.isEmpty()) {
+        if (all != null && !all.isEmpty()) {
             return new ResponseEntity<List<JournalEntry>>(all, HttpStatus.OK);
         } else {
             return new ResponseEntity<String>("No entries found", HttpStatus.NOT_FOUND);

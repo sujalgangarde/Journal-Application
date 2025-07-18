@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +34,9 @@ public class JournalEntryService {
             User user = userService.findByUsername(username);
             entry.setDate(LocalDateTime.now());
             JournalEntry saved = journalEntryRepository.save(entry); // Save the entry to the database
+            if (user.getJournalEntries() == null) {
+                user.setJournalEntries(new ArrayList<>());
+            }
             user.getJournalEntries().add(saved); // Add the saved entry to the user's journal entries
             userService.saveUser(user); // Save the updated/created user with the new entry
         } catch (Exception e) {
